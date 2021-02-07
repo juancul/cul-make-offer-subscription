@@ -286,7 +286,7 @@ function cul_find_plan_duration_in_cart_subs() {
 //This function finds a subscrition product depending on the months in the cart and displays the message depending on the plan
 add_filter('woocommerce_checkout_fields', 'custom_subscription_checkout_message');
 
-function ustom_subscription_checkout_message() {
+function custom_subscription_checkout_message() {
     $cart_data = WC()->session->get('cart');
     $cart = $cart_data[array_key_first($cart_data)];
     if(isset($cart['subscription_renewal']) == flase && isset($cart['subscription_renewal']['subscription_id']) == false ) {
@@ -311,8 +311,6 @@ function ustom_subscription_checkout_message() {
                     <span class="cart-notice" style="color: #a374dd">Este alquiler es un compromiso por 18 meses. Solo podrás hacer una oferta para quedarte con los productos una vez termines este plan</span>
               </div>';
         }
-        else{
-            echo '';
-        }   
+        
     }
 }
