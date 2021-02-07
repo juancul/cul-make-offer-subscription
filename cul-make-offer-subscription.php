@@ -1,13 +1,12 @@
 <?php
-
 /**
- * A plugin that adds collection information to the woocommerce subscription edit page
+ * Make an offer for a subscription. Subscrition info in admin
  *
  * @package cul-make-offer-subscription
  *
  * Plugin Name:       CUL - Make an offer for a subscription. Subscrition info in admin
  * Description:       Plugin that adds  a maken an offer button to subscription and adds subscription information to the woocommerce offer edit page
- * Version:           1.0
+ * Version:           1.1
  * Author:            CUL
  */
 
@@ -255,7 +254,7 @@ function add_offer_button($subscription) {
 **/
 
 // This function returns the smallest amount of months one of the plans has in the cart
-function cul_find_plan_duration_in_cart() {
+function cul_find_plan_duration_in_cart_subs() {
 
     $products = WC()->cart->cart_contents;
     $all_variation_titles = '';
@@ -292,22 +291,22 @@ function ustom_subscription_checkout_message() {
     $cart = $cart_data[array_key_first($cart_data)];
     if(isset($cart['subscription_renewal']) == flase && isset($cart['subscription_renewal']['subscription_id']) == false ) {
         //Show a message depending of the smallest plan in the cart
-        if (cul_find_plan_duration_in_cart() == 6){
+        if (cul_find_plan_duration_in_cart_subs() == 6){
             echo '<div class="woocommerce-info">
                     <span class="cart-notice" style="color: #a374dd">Este alquiler es un compromiso por 6 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 6 meses una vez termines este plan</span>
               </div>';
         }
-        else if (cul_find_plan_duration_in_cart() == 9){
+        else if (cul_find_plan_duration_in_cart_subs() == 9){
             echo '<div class="woocommerce-info">
                     <span class="cart-notice" style="color: #a374dd">Este alquiler es un compromiso por 9 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 5 meses una vez termines este plan</span>
               </div>';
         }
-        else if (cul_find_plan_duration_in_cart() == 12){
+        else if (cul_find_plan_duration_in_cart_subs() == 12){
             echo '<div class="woocommerce-info">
                     <span class="cart-notice" style="color: #a374dd">Este alquiler es un compromiso por 12 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan</span>
               </div>';
         }
-        else if (cul_find_plan_duration_in_cart() == 18){
+        else if (cul_find_plan_duration_in_cart_subs() == 18){
             echo '<div class="woocommerce-info">
                     <span class="cart-notice" style="color: #a374dd">Este alquiler es un compromiso por 18 meses. Solo podrás hacer una oferta para quedarte con los productos una vez termines este plan</span>
               </div>';
