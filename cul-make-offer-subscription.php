@@ -161,8 +161,8 @@ function add_offer_button($subscription) {
     else if ($subscription_length >= 18) {
         $subscription_length_for_offer=18;
     }
-    //Only displays for subsritions above 70000 when the change in plans was made
-    if ($subscription->id>80000){
+    //Only displays for subsritions above 75903 when the change in plans was made
+    if ($subscription->id>75903){
         //Displays message within parent subscription when a resubscription already exists
         if (get_post_meta( $subscription->id, '_subscription_resubscribe_order_ids_cache', true )){
             foreach ($subscription_related_resubscribe as $order_id){
@@ -230,7 +230,7 @@ function add_offer_button($subscription) {
                 <hr class="wp-block-separator">';
         }     
     }
-    //Displays message within unique subscriptions before plance change implementation velo subscrition 70000
+    //Displays message within unique subscriptions before plans change implementation below subscrition 70000
     else {
         if($subscription_completed_order_count>=$subscription_length_for_offer) {
                 echo '<p class="woocommerce-info">Ya puedes hacer una oferta si crees que este producto es para ti.</p>
@@ -238,13 +238,13 @@ function add_offer_button($subscription) {
                         <input type="hidden" name="subscription-id" value="'.$subscription->ID.'" />
                         <input type="submit" value="Hacer una oferta" class="button"/>
                       </form><hr class="wp-block-separator"><br><br><br>';
-            }
-            else {
-                echo '<p class="woocommerce-info">Este alquiler es por <strong>'.$subscription_length.' meses</strong>. Para poder hacer una oferta y quedarte con los productos de este alquiler debes terminar este plan de <strong>'.$subscription_length.' meses</strong></br>
-                        Este es tu resumen:</br>
-                        Meses pagados en alquiler: '.$subscription_completed_order_count.'</p>
-                    <hr class="wp-block-separator">';
-            }
+        }
+        else {
+            echo '<p class="woocommerce-info">Este alquiler es por <strong>'.$subscription_length.' meses</strong>. Para poder hacer una oferta y quedarte con los productos de este alquiler debes terminar este plan de <strong>'.$subscription_length.' meses</strong></br>
+                    Este es tu resumen:</br>
+                    Meses pagados en alquiler: '.$subscription_completed_order_count.'</p>
+                <hr class="wp-block-separator">';
+        }
     }
 } 
 
@@ -283,7 +283,7 @@ function cul_find_plan_duration_in_cart_subs() {
   
 }
 
-//This function finds a subscrition product depending on the months in the cart and displays the message depending on the plan
+//This function finds a subscription product depending on the months in the cart and displays the message depending on the plan
 add_filter('woocommerce_checkout_fields', 'custom_subscription_checkout_message');
 
 function custom_subscription_checkout_message() {
