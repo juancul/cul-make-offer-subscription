@@ -161,7 +161,7 @@ function add_offer_button($subscription) {
     else if ($subscription_length >= 18) {
         $subscription_length_for_offer=18;
     }
-    //Only displays for subsritions above 75903 when the change in plans was made
+    //Only displays for subsritions above 75903 when the change in pricing plans was made
     if ($subscription->get_id()>75903){
         //Displays message within parent subscription when a resubscription already exists
         if (get_post_meta( $subscription->get_id(), '_subscription_resubscribe_order_ids_cache', true )){
@@ -169,14 +169,14 @@ function add_offer_button($subscription) {
                 if (get_post_type($order_id->id) == "shop_subscription"){
                     $rel_subscription_child = wcs_get_subscription($order_id->id);
                     if(($subscription_completed_order_count+$rel_subscription_child->get_completed_payment_count())==$subscription_length_for_offer) {
-                        echo '<p class="woocommerce-info">Ya puedes hacer una oferta si crees que este producto es para ti.</p>
+                        echo '<p class="woocommerce-info">Ya puedes hacer una oferta si te enamoraste de los productos.</p>
                               <form action="/producto/oferta-por-alquiler/" method="post">
                                 <input type="hidden" name="subscription-id" value="'.$subscription->get_id().'" />
                                 <input type="submit" value="Hacer una oferta" class="button"/>
                               </form><hr class="wp-block-separator"><br><br><br>';
                     }
                     else {
-                        echo '<p class="woocommerce-info">Este alquiler es por <strong>'.$subscription_length.' meses</strong>. Para poder hacer una oferta y quedarte con los productos de este alquiler debes terminar este plan de <strong>'.$subscription_length.' meses</strong> y luego alquilar por otros <strong>'. ($subscription_length_for_offer - $subscription_length).' meses</strong>.</br>
+                        echo '<p class="woocommerce-info">Este alquiler es por <strong>'.$subscription_length.' meses</strong>. Si te enamoraste y quieres hacer una oferta para quedarte con los productos de este alquiler debes terminar este plan de <strong>'.$subscription_length.' meses</strong> y luego alquilar por otros <strong>'. ($subscription_length_for_offer - $subscription_length).' meses</strong>.</br>
                         Este es tu resumen:</br>
                         Meses pagados en primer alquiler: '.$subscription_completed_order_count.'</br>
                         Meses pagados en segundo alquiler: '.$rel_subscription_child->get_completed_payment_count().'
@@ -199,7 +199,7 @@ function add_offer_button($subscription) {
                               </form><hr class="wp-block-separator"><br><br><br>';
                     }
                 else {    
-                    echo '<p class="woocommerce-info">Este alquiler es tu segundo alquiler por <strong>'.$subscription_length.' meses</strong>. Para poder hacer una oferta y quedarte con el/los productos debes terminar los meses restantes en este alquiler </br>
+                    echo '<p class="woocommerce-info">Este alquiler es tu segundo alquiler por <strong>'.$subscription_length.' meses</strong>. Si te enamoraste y quieres hacer una oferta para y quedarte con el/los productos debes terminar los meses restantes en este alquiler </br>
                         Este es tu resumen:</br>
                         Meses pagados en primer alquiler: '.$rel_subsubscription_parent->get_completed_payment_count().'</br>
                         Meses pagados en segundo alquiler: '.$subscription_completed_order_count.'
@@ -217,7 +217,7 @@ function add_offer_button($subscription) {
                       </form><hr class="wp-block-separator"><br><br><br>';
             }
             else {
-                echo '<p class="woocommerce-info">Este alquiler es por <strong>'.$subscription_length.' meses</strong>. Para poder hacer una oferta y quedarte con los productos de este alquiler debes terminar este plan de <strong>'.$subscription_length.' meses</strong></br>
+                echo '<p class="woocommerce-info">Este alquiler es por <strong>'.$subscription_length.' meses</strong>. Si te enamoraste y quieres hacer una oferta para quedarte con los productos de este alquiler debes terminar este plan de <strong>'.$subscription_length.' meses</strong></br>
                         Este es tu resumen:</br>
                         Meses pagados en alquiler: '.$subscription_completed_order_count.'</p>
                     <hr class="wp-block-separator">';
@@ -225,7 +225,7 @@ function add_offer_button($subscription) {
         } 
         //Displays message within unique subscription that needs a resubscription to make an offer but still does not have one
         else {
-            echo '<p class="woocommerce-info">Este alquiler es por <strong>'.$subscription_length.' meses</strong>. Para poder hacer una oferta y quedarte con los productos de este alquiler debes terminar este plan de <strong>'.$subscription_length.' meses</strong>  y luego alquilar por otros <strong>'. ($subscription_length_for_offer - $subscription_length).' meses</strong>.</br>
+            echo '<p class="woocommerce-info">Este alquiler es por <strong>'.$subscription_length.' meses</strong>. Si te enamoraste y quieres hacer una oferta para quedarte con los productos de este alquiler debes terminar este plan de <strong>'.$subscription_length.' meses</strong>  y luego alquilar por otros <strong>'. ($subscription_length_for_offer - $subscription_length).' meses</strong>.</br>
                 ¡No te preocupes te saldrá un botón para "Re-Alquilar" y otro para "Hacer una Oferta" en su debido momento!</p>
                 <hr class="wp-block-separator">';
         }     
@@ -240,7 +240,7 @@ function add_offer_button($subscription) {
                       </form><hr class="wp-block-separator"><br><br><br>';
         }
         else {
-            echo '<p class="woocommerce-info">Este alquiler es por <strong>'.$subscription_length.' meses</strong>. Para poder hacer una oferta y quedarte con los productos de este alquiler debes terminar este plan de <strong>'.$subscription_length.' meses</strong></br>
+            echo '<p class="woocommerce-info">Este alquiler es por <strong>'.$subscription_length.' meses</strong>. Si te enamoraste y quieres hacer una oferta para quedarte con los productos de este alquiler debes terminar este plan de <strong>'.$subscription_length.' meses</strong></br>
                     Este es tu resumen:</br>
                     Meses pagados en alquiler: '.$subscription_completed_order_count.'</p>
                 <hr class="wp-block-separator">';
