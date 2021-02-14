@@ -58,7 +58,7 @@ function display_custom_field_after_buyer_contact_details($post_id) {
 
 /*
 * Admin
-* Add meta box wit the rental information so a decision on the offer can be made
+* Add meta box with the rental information so a decision on the offer can be made in the offer details
 */
 add_action( 'add_meta_boxes', 'offers_rental_data_box' );
 function offers_rental_data_box() {
@@ -162,16 +162,16 @@ function add_offer_button($subscription) {
         $subscription_length_for_offer=18;
     }
     //Only displays for subsritions above 75903 when the change in plans was made
-    if ($subscription->id>75903){
+    if ($subscription->get_id()>75903){
         //Displays message within parent subscription when a resubscription already exists
-        if (get_post_meta( $subscription->id, '_subscription_resubscribe_order_ids_cache', true )){
+        if (get_post_meta( $subscription->get_id(), '_subscription_resubscribe_order_ids_cache', true )){
             foreach ($subscription_related_resubscribe as $order_id){
                 if (get_post_type($order_id->id) == "shop_subscription"){
                     $rel_subscription_child = wcs_get_subscription($order_id->id);
                     if(($subscription_completed_order_count+$rel_subscription_child->get_completed_payment_count())==$subscription_length_for_offer) {
                         echo '<p class="woocommerce-info">Ya puedes hacer una oferta si crees que este producto es para ti.</p>
                               <form action="/producto/oferta-por-alquiler/" method="post">
-                                <input type="hidden" name="subscription-id" value="'.$subscription->ID.'" />
+                                <input type="hidden" name="subscription-id" value="'.$subscription->get_id().'" />
                                 <input type="submit" value="Hacer una oferta" class="button"/>
                               </form><hr class="wp-block-separator"><br><br><br>';
                     }
@@ -188,13 +188,13 @@ function add_offer_button($subscription) {
             }
         }
         //Displays message within child re-subscription if it exists
-        else if ( get_post_meta( $subscription->id, '_subscription_resubscribe', true ) ){
-                intval($resubscrptions_id = get_post_meta( $subscription->id, '_subscription_resubscribe', true )).'holi<br>';
+        else if ( get_post_meta( $subscription->get_id(), '_subscription_resubscribe', true ) ){
+                intval($resubscrptions_id = get_post_meta( $subscription->get_id(), '_subscription_resubscribe', true )).'holi<br>';
                 $rel_subsubscription_parent = wcs_get_subscription($resubscrptions_id);
                 if(($subscription_completed_order_count+$rel_subsubscription_parent->get_completed_payment_count())==$subscription_length_for_offer) {
                         echo '<p class="woocommerce-info">Ya puedes hacer una oferta si crees que este producto es para ti.</p>
                               <form action="/producto/oferta-por-alquiler/" method="post">
-                                <input type="hidden" name="subscription-id" value="'.$subscription->ID.'" />
+                                <input type="hidden" name="subscription-id" value="'.$subscription->get_id().'" />
                                 <input type="submit" value="Hacer una oferta" class="button"/>
                               </form><hr class="wp-block-separator"><br><br><br>';
                     }
@@ -212,7 +212,7 @@ function add_offer_button($subscription) {
             if($subscription_completed_order_count>=$subscription_length_for_offer) {
                 echo '<p class="woocommerce-info">Ya puedes hacer una oferta si crees que este producto es para ti.</p>
                       <form action="/producto/oferta-por-alquiler/" method="post">
-                        <input type="hidden" name="subscription-id" value="'.$subscription->ID.'" />
+                        <input type="hidden" name="subscription-id" value="'.$subscription->get_id().'" />
                         <input type="submit" value="Hacer una oferta" class="button"/>
                       </form><hr class="wp-block-separator"><br><br><br>';
             }
@@ -235,7 +235,7 @@ function add_offer_button($subscription) {
         if($subscription_completed_order_count>=$subscription_length_for_offer) {
                 echo '<p class="woocommerce-info">Ya puedes hacer una oferta si crees que este producto es para ti.</p>
                       <form action="/producto/oferta-por-alquiler/" method="post">
-                        <input type="hidden" name="subscription-id" value="'.$subscription->ID.'" />
+                        <input type="hidden" name="subscription-id" value="'.$subscription->get_id().'" />
                         <input type="submit" value="Hacer una oferta" class="button"/>
                       </form><hr class="wp-block-separator"><br><br><br>';
         }
@@ -284,12 +284,12 @@ function cul_find_plan_duration_in_cart_subs() {
 }
 
 //This function finds a subscription product depending on the months in the cart and displays the message depending on the plan
-add_filter('woocommerce_checkout_fields', 'custom_subscription_checkout_message');
+add_filter('woocommerce_before_checkout_form', 'custom_subscription_checkout_message');
 
 function custom_subscription_checkout_message() {
     $cart_data = WC()->session->get('cart');
     $cart = $cart_data[array_key_first($cart_data)];
-    if(isset($cart['subscription_renewal']) == flase && isset($cart['subscription_renewal']['subscription_id']) == false ) {
+    if(isset($cart['subscription_renewal']) == false && isset($cart['subscription_renewal']['subscription_id']) == false ) {
         //Show a message depending of the smallest plan in the cart
         if (cul_find_plan_duration_in_cart_subs() == 6){
             echo '<div class="woocommerce-info">
