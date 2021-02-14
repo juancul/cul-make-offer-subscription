@@ -292,23 +292,23 @@ function custom_subscription_checkout_message() {
     if(isset($cart['subscription_renewal']) == false && isset($cart['subscription_renewal']['subscription_id']) == false ) {
         //Show a message depending of the smallest plan in the cart
         if (cul_find_plan_duration_in_cart_subs() == 6){
-            echo '<div class="woocommerce-info">
-                    <span class="cart-notice cart-rental-message">Este alquiler es un compromiso por 6 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 6 meses una vez termines este plan</span>
+            echo '<div class="woocommerce-info cart-rental-message">
+                    <span class="cart-notice">Este alquiler es un compromiso por 6 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 6 meses una vez termines este plan</span>
               </div>';
         }
         else if (cul_find_plan_duration_in_cart_subs() == 9){
-            echo '<div class="woocommerce-info">
-                    <span class="cart-notice cart-rental-message">Este alquiler es un compromiso por 9 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 5 meses una vez termines este plan</span>
+            echo '<div class="woocommerce-info cart-rental-message">
+                    <span class="cart-notice">Este alquiler es un compromiso por 9 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 5 meses una vez termines este plan</span>
               </div>';
         }
         else if (cul_find_plan_duration_in_cart_subs() == 12){
-            echo '<div class="woocommerce-info">
-                    <span class="cart-notice cart-rental-message">Este alquiler es un compromiso por 12 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan</span>
+            echo '<div class="woocommerce-info cart-rental-message">
+                    <span class="cart-notice">Este alquiler es un compromiso por 12 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan</span>
               </div>';
         }
         else if (cul_find_plan_duration_in_cart_subs() == 18){
-            echo '<div class="woocommerce-info">
-                    <span class="cart-notice cart-rental-message">Este alquiler es un compromiso por 18 meses. Solo podrás hacer una oferta para quedarte con los productos una vez termines este plan</span>
+            echo '<div class="woocommerce-info cart-rental-message">
+                    <span class="cart-notice">Este alquiler es un compromiso por 18 meses. Solo podrás hacer una oferta para quedarte con los productos una vez termines este plan</span>
               </div>';
         }
         
