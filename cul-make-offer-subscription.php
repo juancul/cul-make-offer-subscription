@@ -169,7 +169,7 @@ function add_offer_button($subscription) {
                 if (get_post_type($order_id->id) == "shop_subscription"){
                     $rel_subscription_child = wcs_get_subscription($order_id->id);
                     if(($subscription_completed_order_count+$rel_subscription_child->get_completed_payment_count())==$subscription_length_for_offer) {
-                        echo '<p class="woocommerce-info">Ya puedes hacer una oferta si te enamoraste de los productos.</p>
+                        echo '<p class="woocommerce-info">Si te enamoraste de los productos y crees que es para ti ya puedes hacer una oferta para quedártelos.</p>
                               <form action="/producto/oferta-por-alquiler/" method="post">
                                 <input type="hidden" name="subscription-id" value="'.$subscription->get_id().'" />
                                 <input type="submit" value="Hacer una oferta" class="button"/>
