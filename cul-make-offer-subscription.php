@@ -192,7 +192,7 @@ function add_offer_button($subscription) {
                 intval($resubscrptions_id = get_post_meta( $subscription->get_id(), '_subscription_resubscribe', true )).'holi<br>';
                 $rel_subsubscription_parent = wcs_get_subscription($resubscrptions_id);
                 if(($subscription_completed_order_count+$rel_subsubscription_parent->get_completed_payment_count())==$subscription_length_for_offer) {
-                        echo '<p class="woocommerce-info">Ya puedes hacer una oferta si crees que este producto es para ti.</p>
+                        echo '<p class="woocommerce-info">Ya puedes hacer una oferta si te enamoraste de los productos de este alquiler y crees que son para ti.</p>
                               <form action="/producto/oferta-por-alquiler/" method="post">
                                 <input type="hidden" name="subscription-id" value="'.$subscription->get_id().'" />
                                 <input type="submit" value="Hacer una oferta" class="button"/>
@@ -210,7 +210,7 @@ function add_offer_button($subscription) {
         //Displays message within unique subscription if max plan is selected (18 months)
         else if ($subscription_length >= 18){
             if($subscription_completed_order_count>=$subscription_length_for_offer) {
-                echo '<p class="woocommerce-info">Ya puedes hacer una oferta si crees que este producto es para ti.</p>
+                echo '<p class="woocommerce-info">Ya puedes hacer una oferta si te enamoraste de los productos de este alquiler y crees que son para ti.</p>
                       <form action="/producto/oferta-por-alquiler/" method="post">
                         <input type="hidden" name="subscription-id" value="'.$subscription->get_id().'" />
                         <input type="submit" value="Hacer una oferta" class="button"/>
@@ -233,7 +233,7 @@ function add_offer_button($subscription) {
     //Displays message within unique subscriptions before plans change implementation below subscrition 70000
     else {
         if($subscription_completed_order_count>=$subscription_length) {
-                echo '<p class="woocommerce-info">Ya puedes hacer una oferta si crees que este producto es para ti.</p>
+                echo '<p class="woocommerce-info">Ya puedes hacer una oferta si te enamoraste de los productos de este alquiler y crees que son para ti.</p>
                       <form action="/producto/oferta-por-alquiler/" method="post">
                         <input type="hidden" name="subscription-id" value="'.$subscription->get_id().'" />
                         <input type="submit" value="Hacer una oferta" class="button"/>
