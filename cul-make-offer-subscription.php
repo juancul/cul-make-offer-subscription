@@ -232,8 +232,8 @@ function add_offer_button($subscription) {
     }
     //Displays message within unique subscriptions before plans change implementation below subscrition 70000
     else {
-        if($subscription_completed_order_count>=$subscription_length_for_offer) {
-            echo $subscription_completed_order_count." ,, ".$subscription_length_for_offer
+        if($subscription_completed_order_count>=$subscription_length) {
+            echo $subscription_completed_order_count." ,, ".$subscription_length;
                 echo '<p class="woocommerce-info">Ya puedes hacer una oferta si crees que este producto es para ti.</p>
                       <form action="/producto/oferta-por-alquiler/" method="post">
                         <input type="hidden" name="subscription-id" value="'.$subscription->get_id().'" />
@@ -241,7 +241,7 @@ function add_offer_button($subscription) {
                       </form><hr class="wp-block-separator"><br><br><br>';
         }
         else {
-            echo $subscription_completed_order_count." || ".$subscription_length_for_offer
+            echo $subscription_completed_order_count." || ".$subscription_length;
             echo '<p class="woocommerce-info">Este alquiler es por <strong>'.$subscription_length.' meses</strong>. Si te enamoraste y quieres hacer una oferta para quedarte con los productos de este alquiler debes terminar este plan de <strong>'.$subscription_length.' meses</strong></br>
                     Este es tu resumen:</br>
                     Meses pagados en alquiler: '.$subscription_completed_order_count.'</p>
