@@ -113,6 +113,7 @@ function offer_meta_box_callback( $post )
         echo '<br><br>Valor restante en plan: ' . wc_price(($subscription_length-$subscription_completed_order_count)*$recurring_total);
         echo '<br><br>Oferta Aceptable: ' . wc_price((($subscription_length-$subscription_completed_order_count)*$recurring_total)*.9);
         echo '<br><br>Ver Alquiler: <a href ="https://vivecul.com.co/wp-admin/post.php?post='.$offer_subscription_id.'&action=edit" target="_blank">'.$offer_subscription_id.'</a>';
+        echo '<br><br>Ver <a href ="https://vivecul.com.co/wp-admin/edit.php?post_status=all&post_type=shop_order&_customer_user='.$sub_user_id.'" target="_blank">Pedidos Usuario</a>';
     }
     else {
        echo 'No relacionó alquiler<br> <a href ="https://vivecul.com.co/wp-admin/edit.php?post_type=shop_subscription&_customer_user='.$sub_user_id.'" target="_blank"> Ver Alquileres</a>';
