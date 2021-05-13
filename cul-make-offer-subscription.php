@@ -135,7 +135,14 @@ function add_offer_button($subscription) {
     $subscription_completed_order_count = 0;
     $subscription_pending_order_count = 0;
     $pending_total = 0;
-    $subscription_length = wcs_estimate_periods_between( $subscription->get_time( 'start' ), $subscription->get_time( 'end' ), $subscription->get_billing_period() );
+
+    if (metadata_exists('post', $subscription->get_id(), 'aw_subscription_length')==true){
+        $subscription_length = get_post_meta( $subscription->get_id(), 'aw_subscription_length', true );
+    }
+
+    else {
+        $subscription_length = wcs_estimate_periods_between( $subscription->get_time( 'start' ), $subscription->get_time( 'end' ), $subscription->get_billing_period() );
+    }
     foreach ($subscription_related_orders as $order_id){
         $order = wc_get_order( $order_id );
         
