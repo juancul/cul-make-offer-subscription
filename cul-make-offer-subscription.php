@@ -135,7 +135,7 @@ function add_offer_button($subscription) {
     $subscription_completed_order_count = 0;
     $subscription_pending_order_count = 0;
     $pending_total = 0;
-
+    //get subscription length either from meta or by remaining months
     if (metadata_exists('post', $subscription->get_id(), 'aw_subscription_length')==true){
         $subscription_length = get_post_meta( $subscription->get_id(), 'aw_subscription_length', true );
     }
