@@ -329,10 +329,10 @@ function cul_find_rayco_product_in_cart_message() {
     $products = WC()->cart->cart_contents;
     $term_titles = '';
     foreach ($products as $product) {
-        $product_id = get_post_parent($product['data']->get_id())->ID;
+        echo $product_id = get_post_parent($product['data']->get_id())->ID;
         
         
-        $term_list = json_encode(wp_get_post_terms($product_id,'product_cat',array('fields'=>'slugs')));
+        echo $term_list = json_encode(wp_get_post_terms($product_id,'product_cat',array('fields'=>'slugs')));
         echo $term_titles .= $term_list;
     }
 
