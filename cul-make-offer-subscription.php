@@ -333,7 +333,7 @@ function cul_find_rayco_product_in_cart_message() {
         
         
         $term_list = json_encode(wp_get_post_terms($product_id,'product_cat',array('fields'=>'slugs')));
-        $term_titles .= $term_list;
+        echo $term_titles .= $term_list;
     }
 
     if (strpos($term_titles , 'rayco') !== false) {
