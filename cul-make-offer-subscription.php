@@ -327,6 +327,7 @@ function cul_find_plan_duration_in_cart_subs() {
 function cul_find_rayco_product_in_cart_message() {
 
     $products = WC()->cart->cart_contents;
+    var_dump(expression);
     $term_titles = '';
     foreach ($products as $product) {
         echo $product_id = get_post_parent($product['data']->get_id())->ID;
