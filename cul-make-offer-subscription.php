@@ -355,7 +355,7 @@ function custom_subscription_checkout_message() {
     $cart = $cart_data[array_key_first($cart_data)];
 
     if (cul_find_rayco_product_in_cart_message() === true){
-        if(isset($cart['subscription_renewal']) == false && isset($cart['subscription_renewal']['subscription_id']) == false ) {
+        if(isset($cart['subscription_renewal']) == false && isset($cart['subscription_renewal']['subscription_id']) == false && isset($cart['subscription_resubscribe']) == false && isset($cart['subscription_resubscribe']['subscription_id']) == false) {
             //Show a message depending of the smallest plan in the cart
             if (cul_find_plan_duration_in_cart_subs() == 6){
                 echo '<div class="woocommerce-info cart-rental-message">
@@ -413,7 +413,7 @@ function custom_subscription_checkout_message() {
     }
     
     else { 
-        if(isset($cart['subscription_renewal']) == false && isset($cart['subscription_renewal']['subscription_id']) == false ) {
+        if(isset($cart['subscription_renewal']) == false && isset($cart['subscription_renewal']['subscription_id']) == false && isset($cart['subscription_resubscribe']) == false && isset($cart['subscription_resubscribe']['subscription_id']) == false) {
             //Show a message depending of the smallest plan in the cart
             if (cul_find_plan_duration_in_cart_subs() == 6){
                 echo '<div class="woocommerce-info cart-rental-message">
