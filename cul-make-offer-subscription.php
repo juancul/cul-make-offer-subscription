@@ -362,7 +362,7 @@ function custom_subscription_checkout_message() {
                         <span class="cart-notice">Este alquiler es ofrecido, facturado y despachado por Distribuidora Rayco</span>
                     </div>
                 <div class="woocommerce-info cart-rental-message">
-                        <span class="cart-notice">Rayco - Este alquiler es un compromiso por 6 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 6 meses una vez termines este plan de 6 meses</span>
+                        <span class="cart-notice">Este alquiler es un compromiso por 6 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 6 meses una vez termines este plan de 6 meses</span>
                   </div>';
             }
             else if (cul_find_plan_duration_in_cart_subs() == 9){
@@ -370,7 +370,7 @@ function custom_subscription_checkout_message() {
                         <span class="cart-notice">Este alquiler es ofrecido, facturado y despachado por Distribuidora Rayco</span>
                     </div>
                 <div class="woocommerce-info cart-rental-message">
-                        <span class="cart-notice">Rayco - Este alquiler es un compromiso por 9 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 5 meses una vez termines este plan de 9 meses</span>
+                        <span class="cart-notice">Este alquiler es un compromiso por 9 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 5 meses una vez termines este plan de 9 meses</span>
                   </div>';
             }
             else if (cul_find_plan_duration_in_cart_subs() == 12){
@@ -378,7 +378,7 @@ function custom_subscription_checkout_message() {
                         <span class="cart-notice">Este alquiler es ofrecido, facturado y despachado por Distribuidora Rayco</span>
                     </div>
                 <div class="woocommerce-info cart-rental-message">
-                        <span class="cart-notice">Rayco - Este alquiler es un compromiso por 12 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan de 12 meses</span>
+                        <span class="cart-notice">Este alquiler es un compromiso por 12 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan de 12 meses</span>
                   </div>';
             }
             else if (cul_find_plan_duration_in_cart_subs() == 18){
