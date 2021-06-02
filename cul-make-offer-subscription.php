@@ -135,11 +135,14 @@ function add_offer_button($subscription) {
     $subscription_completed_order_count = 0;
     $subscription_pending_order_count = 0;
     $pending_total = 0;
+    // get marketplace renter if it exists
+    if (metadata_exists('post', $subscription->get_id(), 'aw_mp_renter')==true) {
+        $mp_renter = get_post_meta( $subscription->get_id(), 'aw_mp_renter', true );
+    }
     //get subscription length either from meta or by remaining months
     if (metadata_exists('post', $subscription->get_id(), 'aw_subscription_length')==true){
         $subscription_length = get_post_meta( $subscription->get_id(), 'aw_subscription_length', true );
     }
-
     else {
         $subscription_length = wcs_estimate_periods_between( $subscription->get_time( 'start' ), $subscription->get_time( 'end' ), $subscription->get_billing_period() );
     }
@@ -154,22 +157,45 @@ function add_offer_button($subscription) {
         $pending_total += $order->get_total();
         }
     }
-
+    //Gets the months needed to make an offer for each subscription plan for a marketplace renter.
+    if ($mp_renter == 'rayco'){
+        if ($subscription_length == 6){
+            $subscription_length_for_offer=12;
+        }
+        else if ($subscription_length == 9 ){
+            $subscription_length_for_offer=14;
+        }
+        else if ($subscription_length == 12   ){
+            $subscription_length_for_offer=16;
+        }
+        else if ($subscription_length == 18) {
+            $subscription_length_for_offer=22;
+        }
+        else if ($subscription_length == 24) {
+            $subscription_length_for_offer=28;
+        }
+        else if ($subscription_length == 30) {
+            $subscription_length_for_offer=34;
+        }
+    }
+    
     //Gets the months needed to make an offer for each subscription plan
-    if ($subscription_length <= 6){
-        $subscription_length_for_offer=12;
-    }
-    else if ($subscription_length <= 9 && $subscription_length > 6  ){
-        $subscription_length_for_offer=14;
-    }
-    else if ($subscription_length <= 12 && $subscription_length > 9  ){
-        $subscription_length_for_offer=16;
-    }
+    else {
+        if ($subscription_length <= 6){
+            $subscription_length_for_offer=12;
+        }
+        else if ($subscription_length <= 9 && $subscription_length > 6  ){
+            $subscription_length_for_offer=14;
+        }
+        else if ($subscription_length <= 12 && $subscription_length > 9  ){
+            $subscription_length_for_offer=16;
+        }
 
-    else if ($subscription_length >= 18) {
-        $subscription_length_for_offer=18;
+        else if ($subscription_length >= 18) {
+            $subscription_length_for_offer=18;
+        }
     }
-    //Only displays for subsritions above 75903 when the change in pricing plans was made
+    //Only displays for subsriptions above 75903 when the change in pricing plans was made
     if ($subscription->get_id()>75903){
         //Displays message within parent subscription when a resubscription already exists
         if (get_post_meta( $subscription->get_id(), '_subscription_resubscribe_order_ids_cache', true )){
@@ -215,8 +241,8 @@ function add_offer_button($subscription) {
                         <hr class="wp-block-separator">';
                 }
         }
-        //Displays message within unique subscription if max plan is selected (18 months)
-        else if ($subscription_length >= 18){
+        //Displays message within unique subscription if max plan is selected (18 months) and is not marketplace since marketplace may have a different rule for 18 month plans.
+        else if ($subscription_length >= 18 && metadata_exists('post', $subscription->get_id(), 'aw_mp_renter')==false){
             if($subscription_completed_order_count>=$subscription_length_for_offer) {
                 echo '<p class="woocommerce-info">Ya puedes hacer una oferta si te enamoraste de los productos de este alquiler y crees que son para ti.</p>
                       <form action="/producto/oferta-por-alquiler/" method="post">
@@ -282,6 +308,12 @@ function cul_find_plan_duration_in_cart_subs() {
         else if (strpos($all_variation_titles, '18 Meses') !== false) {
             return 18;
         }
+        else if (strpos($all_variation_titles, '24 Meses') !== false) {
+            return 24;
+        }
+        else if (strpos($all_variation_titles, '30 Meses') !== false) {
+            return 30;
+        }
 
         else {
           return false;
@@ -291,34 +323,119 @@ function cul_find_plan_duration_in_cart_subs() {
   
 }
 
+// This function returns if there is a marketplace product from rayco in the cart
+function cul_find_rayco_product_in_cart_message() {
+
+    $products = WC()->cart->cart_contents;
+    $term_titles = '';
+    foreach ($products as $product) {
+        $product_id = get_post_parent($product['data']->get_id())->ID;
+        
+        
+        $term_list = json_encode(wp_get_post_terms($product_id,'product_cat',array('fields'=>'slugs')));
+        $term_titles .= $term_list;
+    }
+
+    if (strpos($term_titles , 'rayco') !== false) {
+        return true;
+    }
+
+    else {  
+      return false;
+    }
+  
+}
+
 //This function finds a subscription product depending on the months in the cart and displays the message depending on the plan
 add_filter('woocommerce_before_checkout_form', 'custom_subscription_checkout_message');
 
 function custom_subscription_checkout_message() {
+
     $cart_data = WC()->session->get('cart');
     $cart = $cart_data[array_key_first($cart_data)];
-    if(isset($cart['subscription_renewal']) == false && isset($cart['subscription_renewal']['subscription_id']) == false ) {
-        //Show a message depending of the smallest plan in the cart
-        if (cul_find_plan_duration_in_cart_subs() == 6){
-            echo '<div class="woocommerce-info cart-rental-message">
-                    <span class="cart-notice">Este alquiler es un compromiso por 6 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 6 meses una vez termines este plan</span>
-              </div>';
-        }
-        else if (cul_find_plan_duration_in_cart_subs() == 9){
-            echo '<div class="woocommerce-info cart-rental-message">
-                    <span class="cart-notice">Este alquiler es un compromiso por 9 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 5 meses una vez termines este plan</span>
-              </div>';
-        }
-        else if (cul_find_plan_duration_in_cart_subs() == 12){
-            echo '<div class="woocommerce-info cart-rental-message">
-                    <span class="cart-notice">Este alquiler es un compromiso por 12 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan</span>
-              </div>';
-        }
-        else if (cul_find_plan_duration_in_cart_subs() == 18){
-            echo '<div class="woocommerce-info cart-rental-message">
-                    <span class="cart-notice">Este alquiler es un compromiso por 18 meses. Solo podrás hacer una oferta para quedarte con los productos una vez termines este plan</span>
-              </div>';
-        }
+
+    if (cul_find_rayco_product_in_cart_message() === true){
+        if(isset($cart['subscription_renewal']) == false && isset($cart['subscription_renewal']['subscription_id']) == false ) {
+            //Show a message depending of the smallest plan in the cart
+            if (cul_find_plan_duration_in_cart_subs() == 6){
+                echo '<div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es ofrecido, facturado y despachado por Distribuidora Rayco</span>
+                    </div>
+                <div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Rayco - Este alquiler es un compromiso por 6 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 6 meses una vez termines este plan de 6 meses</span>
+                  </div>';
+            }
+            else if (cul_find_plan_duration_in_cart_subs() == 9){
+                echo '<div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es ofrecido, facturado y despachado por Distribuidora Rayco</span>
+                    </div>
+                <div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Rayco - Este alquiler es un compromiso por 9 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 5 meses una vez termines este plan de 9 meses</span>
+                  </div>';
+            }
+            else if (cul_find_plan_duration_in_cart_subs() == 12){
+                echo '<div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es ofrecido, facturado y despachado por Distribuidora Rayco</span>
+                    </div>
+                <div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Rayco - Este alquiler es un compromiso por 12 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan de 12 meses</span>
+                  </div>';
+            }
+            else if (cul_find_plan_duration_in_cart_subs() == 18){
+                echo '<div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es ofrecido, facturado y despachado por Distribuidora Rayco</span>
+                    </div>
+
+                    <div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es un compromiso por 18 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan de 18 meses</span>
+                  </div>';
+            }
+            else if (cul_find_plan_duration_in_cart_subs() == 24){
+                echo '<div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es ofrecido, facturado y despachado por Distribuidora Rayco</span>
+                    </div>
+
+                    <div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es un compromiso por 24 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan de 24 meses</span>
+                  </div>';
+            }
+            else if (cul_find_plan_duration_in_cart_subs() == 30){
+                echo '<div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es ofrecido, facturado y despachado por Distribuidora Rayco</span>
+                    </div>
+
+                    <div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es un compromiso por 30 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan de 30 meses</span>
+                  </div>';
+            }
         
+        }
+    }
+    
+    else { 
+        if(isset($cart['subscription_renewal']) == false && isset($cart['subscription_renewal']['subscription_id']) == false ) {
+            //Show a message depending of the smallest plan in the cart
+            if (cul_find_plan_duration_in_cart_subs() == 6){
+                echo '<div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es un compromiso por 6 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 6 meses una vez termines este plan</span>
+                  </div>';
+            }
+            else if (cul_find_plan_duration_in_cart_subs() == 9){
+                echo '<div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es un compromiso por 9 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 5 meses una vez termines este plan</span>
+                  </div>';
+            }
+            else if (cul_find_plan_duration_in_cart_subs() == 12){
+                echo '<div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es un compromiso por 12 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan</span>
+                  </div>';
+            }
+            else if (cul_find_plan_duration_in_cart_subs() == 18){
+                echo '<div class="woocommerce-info cart-rental-message">
+                        <span class="cart-notice">Este alquiler es un compromiso por 18 meses. Solo podrás hacer una oferta para quedarte con los productos una vez termines este plan</span>
+                  </div>';
+            }
+            
+        }
     }
 }
