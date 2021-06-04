@@ -260,7 +260,9 @@ function add_offer_button($subscription) {
         //Displays message within unique subscription that needs a resubscription to make an offer but still does not have one
         else {
             echo '<p class="woocommerce-info">Este alquiler es por <strong>'.$subscription_length.' meses</strong>. Si te enamoraste y quieres hacer una oferta para quedarte con los productos de este alquiler debes terminar este plan de <strong>'.$subscription_length.' meses</strong>  y luego alquilar por otros <strong>'. ($subscription_length_for_offer - $subscription_length).' meses</strong>.</br>
-                ¡No te preocupes te saldrá un botón para "Re-Alquilar" y otro para "Hacer una Oferta" en su debido momento!</p>
+                ¡No te preocupes te saldrá un botón para "Re-Alquilar" y otro para "Hacer una Oferta" en su debido momento!</p></br>
+                Este es tu resumen:</br>
+                Meses pagados en alquiler: '.$subscription_completed_order_count.'</p>
                 <hr class="wp-block-separator">';
         }     
     }
