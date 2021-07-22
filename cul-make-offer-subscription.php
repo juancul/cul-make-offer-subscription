@@ -364,7 +364,7 @@ function custom_subscription_checkout_message() {
                         <span class="cart-notice">Este alquiler es ofrecido, facturado y despachado por Distribuidora Rayco</span>
                     </div>
                 <div class="woocommerce-info cart-rental-message">
-                        <span class="cart-notice">Este alquiler es un compromiso por 6 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 6 meses una vez termines este plan de 6 meses</span>
+                        <span class="cart-notice">Este alquiler es un compromiso por 6 meses. <br>¡Puedes hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 6 adicionales!</span>
                   </div>';
             }
             else if (cul_find_plan_duration_in_cart_subs() == 9){
@@ -372,7 +372,7 @@ function custom_subscription_checkout_message() {
                         <span class="cart-notice">Este alquiler es ofrecido, facturado y despachado por Distribuidora Rayco</span>
                     </div>
                 <div class="woocommerce-info cart-rental-message">
-                        <span class="cart-notice">Este alquiler es un compromiso por 9 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 5 meses una vez termines este plan de 9 meses</span>
+                        <span class="cart-notice">Este alquiler es un compromiso por 9 meses. <br>¡Puedes hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 5 adicionales!</span>
                   </div>';
             }
             else if (cul_find_plan_duration_in_cart_subs() == 12){
@@ -380,7 +380,7 @@ function custom_subscription_checkout_message() {
                         <span class="cart-notice">Este alquiler es ofrecido, facturado y despachado por Distribuidora Rayco</span>
                     </div>
                 <div class="woocommerce-info cart-rental-message">
-                        <span class="cart-notice">Este alquiler es un compromiso por 12 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan de 12 meses</span>
+                        <span class="cart-notice">Este alquiler es un compromiso por 12 meses. <br>¡Puedes hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 adicionales!</span>
                   </div>';
             }
             else if (cul_find_plan_duration_in_cart_subs() == 18){
@@ -389,7 +389,7 @@ function custom_subscription_checkout_message() {
                     </div>
 
                     <div class="woocommerce-info cart-rental-message">
-                        <span class="cart-notice">Este alquiler es un compromiso por 18 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan de 18 meses</span>
+                        <span class="cart-notice">Este alquiler es un compromiso por 18 meses.<br>¡Puedes hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 adicionales!</span>
                   </div>';
             }
             else if (cul_find_plan_duration_in_cart_subs() == 24){
@@ -398,7 +398,7 @@ function custom_subscription_checkout_message() {
                     </div>
 
                     <div class="woocommerce-info cart-rental-message">
-                        <span class="cart-notice">Este alquiler es un compromiso por 24 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan de 24 meses</span>
+                        <span class="cart-notice">Este alquiler es un compromiso por 24 meses.<br>¡Puedes hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 adicionales!</span>
                   </div>';
             }
             else if (cul_find_plan_duration_in_cart_subs() == 30){
@@ -407,7 +407,7 @@ function custom_subscription_checkout_message() {
                     </div>
 
                     <div class="woocommerce-info cart-rental-message">
-                        <span class="cart-notice">Este alquiler es un compromiso por 30 meses. Solo podrás hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 meses una vez termines este plan de 30 meses</span>
+                        <span class="cart-notice">Este alquiler es un compromiso por 30 meses.<br>¡Puedes hacer una oferta para quedarte con los productos si vuelves a alquilar por otros 4 adicionales!</span>
                   </div>';
             }
         
