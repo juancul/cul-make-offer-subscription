@@ -317,6 +317,20 @@ function add_offer_button($subscription) {
         if(isset($_POST['button_pressed']))
         {
             
+            $address_args = array(
+                  'first_name' => get_post_meta( $subscription->get_id(), '_billing_first_name', true ),
+                  'last_name'  => get_post_meta( $subscription->get_id(), '_billing_last_name', true ),
+                  'email'      => get_post_meta( $subscription->get_id(), '_billing_email', true ),
+                  'phone'      => get_post_meta( $subscription->get_id(), '_billing_phone', true ),
+                  'address_1'  => get_post_meta( $subscription->get_id(), '_billing_address_1', true ),
+                  'address_2'  => get_post_meta( $subscription->get_id(), '_billing_address_2', true ),
+                  'city'       => get_post_meta( $subscription->get_id(), '_billing_city', true ),
+                  'state'      => get_post_meta( $subscription->get_id(), '_billing_state', true ),
+                  'docid'      => get_post_meta( $subscription->get_id(), '_billing_docid', true ),
+                  'typedoc'    => get_post_meta( $subscription->get_id(), '_billing_typedoc', true ),
+                  'country'    => get_post_meta( $subscription->get_id(), '_billing_phone', true )
+              );
+
             //create order for user to pay
             $order_args = array(
 
@@ -336,6 +350,8 @@ function add_offer_button($subscription) {
 
               $new_order = new WC_Order();
               $new_order = wc_create_order($order_args);
+              $new_order->set_address( $address_args, 'billing' );
+              $new_order->set_address( $address_args, 'shipping' );
 
              // echo '<script language="javascript">';
                // echo 'alert("'.$new_order.'")'; 
