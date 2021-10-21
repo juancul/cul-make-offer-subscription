@@ -282,6 +282,114 @@ function add_offer_button($subscription) {
                 <hr class="wp-block-separator">';
         }
     }
+
+    // ads buton to request anticipated payment
+    echo '<h2>Pre-paga y finaliza tu alquiler</h2>';
+    $prepay_completed =get_post_status(get_post_meta($subscription->get_id(),'order_prepay_id', true));
+    if ($prepay_completed=="wc-completed"){
+        echo '<p class="woocommerce-message">¡Felicitaciones! Este alquiler ya está finalizado y los productos ya son tuyos.</p>';
+    }
+
+    else if(metadata_exists('post', $subscription->get_id(), 'prepay_request')){
+            echo '<p class="woocommerce-message">¡Felicitaciones! Ya puedes hacer el pago para quedarte con tus productos. Una ves realizado el pago te llega por correo la finalización del alquiler y el paz y salvo</p>
+                <p>Para terminar el pago ve a la página de pagos haciendo clic en el siguiente botón:</p>
+                <center><a href="/mi-cuenta/pagos"span class="button" style="padding: 12px;font-size: 16px;">Ir a Pagos</a></center>';
+    } 
+    else{
+        echo '<div id="prepay_block">Si te enamoraste de tu producto y ya sabes que quieres quedarte con el, te damos la opción de prepagar tus meses restantes con un descuento del 10% y quedarte con tus productos para siempre.<br><br>';
+
+        $rental_cost = get_post_meta($subscription->get_id(), '_order_total', true );
+        $completed_payments_meta = get_post_meta($subscription->get_id(), 'aw_completed_payments', true );
+        
+        
+
+        echo '<center>
+                <form action="" method="post">
+                    <input type="hidden" name="subscription-id" value="'.$subscription->get_id().'" />
+                    <input type="submit" value="Pre-Pagar Servicio y Finalizar Alquiler" class="button"/>
+                    <input type="hidden" name="button_pressed" value="1" />
+                    <br><br></center>
+                <center><p>Valor a pagar: '.wc_price(((($subscription_length_for_offer-$completed_payments_meta)*$rental_cost)*0.9)).'<br></p></center>
+                </form></div>';
+
+        
+
+        if(isset($_POST['button_pressed']))
+        {
+            
+            //create order for user to pay
+            $order_args = array(
+
+                'customer_id'   => get_current_user_id(),
+                'status'        => 'pending',
+                'created_via'   => 'admin',
+                'customer_note' => 'Pago creado para prepagar alquiler'
+                // The other options
+                //'status'        => null,
+                //'customer_note' => null,
+                //'parent'        => null,
+                //'created_via'   => checkout,
+                //'cart_hash'     => null,
+                //'order_id'      => 0,
+
+              );
+
+              $new_order = new WC_Order();
+              $new_order = wc_create_order($order_args);
+
+             // echo '<script language="javascript">';
+               // echo 'alert("'.$new_order.'")'; 
+                //echo 'console.log("holi")</script>';
+
+              $product_prepay = 98659;
+              $total_price = ((($subscription_length_for_offer-$completed_payments_meta)*$rental_cost)*0.9);
+              $prod_args = array(
+
+                'name'   => 'Prepago Alquiler # '.$subscription->get_id(),
+                'subtotal'   => $total_price,
+                'total'   => $total_price
+                // The other options
+                //'status'        => null,
+                //'customer_note' => null,
+                //'parent'        => null,
+                //'created_via'   => null,
+                //'cart_hash'     => null,
+                //'order_id'      => 0,
+
+              );
+              
+              $new_order->add_product( wc_get_product($product_prepay), 1, $prod_args );
+              $new_order->calculate_totals();
+
+              $new_order->update_meta_data('rental_prepay_id', $subscription->get_id() ); // <== Here
+              $new_order->save();
+
+              add_post_meta( $new_order->get_id(), 'reantal_prepay_id', $subscription->get_id() );
+              update_post_meta( $subscription->get_id(), 'order_prepay_id', $new_order->get_id() );
+
+              add_post_meta( $subscription->get_id(), 'prepay_request', 1 );
+
+                $to      = 'juan@vivecul.com';
+                $subject = 'Solicitud Para Prepagar';
+                $message = 'https://vivecul.com.co/wp-admin/post.php?post='.$subscription->get_id().'&action=edit';
+                $headers = 'From: webmaster@example.com' . "\r\n" .
+                    'Reply-To: webmaster@example.com' . "\r\n" .
+                    'X-Mailer: PHP/' . phpversion();
+
+                wp_mail( $to, $subject, $message, $headers, $attachments );
+
+            
+
+            echo '<script>document.getElementById("prepay_block").style.display = "none";</script>';
+            echo '<p class="woocommerce-message">¡Felicitaciones! Ya puedes hacer el pago para quedarte con tus productos. Una ves realizado el pago te llega por correo la finalización del alquiler y el paz y salvo</p>
+                <p>Para terminar el pago ve a la página de pagos haciendo clic en el siguiente botón:</p>
+                <center><a href="/mi-cuenta/pagos"span class="button" style="padding: 12px;font-size: 16px;">Ir a Pagos</a></center>';
+            
+            
+        }
+    }
+    echo '<hr class="wp-block-separator"><br><br>';
+    
 } 
 
 /**
