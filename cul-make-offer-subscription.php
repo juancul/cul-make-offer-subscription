@@ -346,7 +346,7 @@ function add_offer_button($subscription) {
               $total_price = ((($subscription_length_for_offer-$completed_payments_meta)*$rental_cost)*0.9);
               $prod_args = array(
 
-                'name'   => 'Prepago Alquiler # '.$subscription->get_id(),
+                'name'   => 'Prepago y Oferta por alquiler # '.$subscription->get_id(),
                 'subtotal'   => $total_price,
                 'total'   => $total_price
                 // The other options
