@@ -309,7 +309,7 @@ function add_offer_button($subscription) {
                     <input type="submit" value="Pre-Pagar Servicio y Finalizar Alquiler" class="button"/>
                     <input type="hidden" name="button_pressed" value="1" />
                     <br><br></center>
-                <center><p>Valor a pagar: '.wc_price(((($subscription_length_for_offer-$completed_payments_meta)*$rental_cost)*0.9)).'<br></p></center>
+                <center><p>Valor a pagar por el restante del servcio con el descuento:<br><strong> '.wc_price(((($subscription_length_for_offer-$completed_payments_meta)*$rental_cost)*0.9)).'</strong><br></p></center>
                 </form></div>';
 
         
